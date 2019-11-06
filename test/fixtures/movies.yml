@@ -1,0 +1,18 @@
+bride:
+  title: The Princess Bride
+  overview: A unique fairytale with adventure, drama, romance, and swordfighting.
+  release_date: Date.parse(1987-09-25)
+  inventory: 25
+
+swamp:
+  title: The Swamp Thing
+  overview: The Swamp Thing is made of swamp, which may not seem that scary, but it is. It smells really bad too.
+  release_date: Date.parse(2019-05-31)
+  inventory: 3
+
+harry:
+  title: Harry Potter and the Sorcerer's Stone
+  overview: On his 11th birthday, Harry Potter learns that he is a wizard. 
+  release_date: Date.parse(2001-11-14)
+  inventory: 12 
+  
