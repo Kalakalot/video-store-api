@@ -1,3 +1,3 @@
 class Customer < ApplicationRecord
-    has_many :Rentals
+    has_many :rentals
 end
