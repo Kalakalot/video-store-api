@@ -1,24 +1,20 @@
 class CustomersController < ApplicationController
+    KEYS = [:id, :name, :register_at, :address, :city, :state, :postal_code, :phone]
     def index
-        @pets = Pet.all
-        # pets = Pet.all.as_json(only: [:name, :age, :human])
-        # render json: pets, status: :ok
+        customers = Customer.all.as_json(only: KEYS)
+        render json: customers, status: :ok
+        # customers = customer.all.as_json(only: [:id, :name, :register_at, :address, :city, :state, :postal_code, :phone])
+        # render json: customer, status: :ok
         # render json: { ready_for_lunch: "yassss" }, status: :ok
     end
-    
-    def show
-    pet = Pet.find_by(id: params[:id]).as_json(only: [:name, :age, :human])
-    render json: pet, status: :ok
-    # render json: { ready_for_lunch: "yassss" }, status: :ok
-    end
-
+ 
     
     
 
     private
 
-    def pet_params
-        params.require(:pet).permit(:name, :age, :human)
+    def customer_params
+        params.require(:customer).permit(:id, :name, :register_at, :address, :city, :state, :postal_code, :phone)
     end
 
 end

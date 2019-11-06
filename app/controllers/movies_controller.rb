@@ -1,26 +1,44 @@
 class MoviesController < ApplicationController
-  KEYS = [:id, :name, :registered_at, :postal_code, :phone]
-  
+  KEYS = [:id, :title, :overview, :release_date, :inventory, :created_at, :updated_at]
+
   def index
-    movies = Movie.all
-    render :json => movies.as_json(only: KEYS), status: :ok
+    movies = Movie.all.as_json(only: KEYS)
+    render json: movies, status: :ok
   end
   
   def show
     movie = Movie.find_by(id: params[:id])
     if movie
-      render :json => movie.as_json(only: KEYS) #status: :ok
+      render json: movie.as_json(only: KEYS), status: :ok
       return
     else
-      render json: {"errors" =>["not found"]}, status: :not_found
-      # we need to specify response for "not found", otherwise Rails will just return default response of success
-      # we can use the errors key for future error messages 
+      render json: {
+        errors: {
+          id: ["No movie with the id of '#{params[:id]}' found"]}
+        }, status: :not_found
       return
     end
   end
+
+  def new
+  end
+
+  def create
+    movie = Movie.new(movie_params)
+    if movie.save!
+      render json: movie.as_json(only: KEYS), status: :ok
+      return
+    else
+      render json: {
+        errors: {
+          id: ["No movie with the id of '#{}' found"]}
+        }, status: :not_found
+      return
+  end
+end
   
   private
   def movie_params
-    params.require(:movie).permit(:id, :name, :registered_at, :postal_code, :phone)
+    params.permit(:title, :overview, :release_date, :inventory)
   end
 end
