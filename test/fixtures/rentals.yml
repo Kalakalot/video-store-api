@@ -1,0 +1,19 @@
+bride_rental-1:
+  customer: one
+  movie: bride
+
+bride_rental-2:
+  customer: two
+  movie: bride
+
+bride_rental-3:
+  customer: three
+  movie: bride
+
+swamp_rental:
+  customer: two
+  movie: swamp
+  
+harry_rental:
+  customer: three
+  movie: harry
