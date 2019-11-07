@@ -19,23 +19,29 @@ describe Customer do
   end
   
   describe "validations" do
-    # it "requires a username" do
-    #   user = User.new
-    #   user.valid?.must_equal false
-    #   user.errors.messages.must_include :username
-    # end
+    before do 
+      @customer = Customer.new
+    end
     
-    # it "requires a unique username" do
-    #   username = "test username"
-    #   user1 = User.new(username: username)
+    it "requires a name and a registered_at" do
+      _(@customer.valid?).must_equal false
+      _(@customer.errors.messages).must_include :name
+      _(@customer.errors.messages).must_include  :registered_at
+    end
     
-    #   # This must go through, so we use create!
-    #   user1.save!
+    it "requires an address" do
+      _(@customer.valid?).must_equal false
+      _(@customer.errors.messages).must_include :address
+    end
     
-    #   user2 = User.new(username: username)
-    #   result = user2.save
-    #   result.must_equal false
-    #   user2.errors.messages.must_include :username
-    # end
+    it "requires a city, state, postal code, and phone" do
+      _(@customer.valid?).must_equal false
+      _(@customer.errors.messages).must_include :address
+      _(@customer.errors.messages).must_include :city
+      _(@customer.errors.messages).must_include :state
+      _(@customer.errors.messages).must_include :postal_code
+      _(@customer.errors.messages).must_include :phone
+    end
+    
   end
 end
