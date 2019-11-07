@@ -28,7 +28,7 @@ class MoviesController < ApplicationController
     else
       render json: {
         ok: false,
-        errors: pet.errors.messages
+        errors: movie.errors.messages
       }, status: :bad_request
       # render json: {
       #   errors: {
@@ -40,7 +40,6 @@ class MoviesController < ApplicationController
   
   private
   def movie_params
-    # should there be a required param for movie? i.e. params.require(:movie).permit(:available_inventory, ... )
-    params.permit(:available_inventory, :title, :overview, :release_date, :inventory)
+    params.require(:movie).permit(:available_inventory, :title, :overview, :release_date, :inventory)
   end
 end
