@@ -28,7 +28,7 @@ class MoviesController < ApplicationController
     else
       render json: {
         ok: false,
-        errors: pet.errors.messages
+        errors: movie.errors.messages
       }, status: :bad_request
       # render json: {
       #   errors: {
