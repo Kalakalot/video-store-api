@@ -1,6 +1,6 @@
 require "test_helper"
 
-MOVIE_FIELDS = %w(id title overview release_date inventory).sort
+MOVIE_FIELDS = %w(id title overview release_date inventory available_inventory).sort
 
 describe MoviesController do
   
@@ -97,6 +97,7 @@ describe MoviesController do
           overview: "A unique fairytale with adventure, drama, romance, and swordfighting",
           release_date:  "Fri, 05 Nov 2010",
           inventory: "25",
+          available_inventory: "25",
           created_at: "Tue, 05 Nov 2019 22:59:38 UTC +00:00",
           updated_at: "Tue, 05 Nov 2019 22:59:38 UTC +00:00"
         }
