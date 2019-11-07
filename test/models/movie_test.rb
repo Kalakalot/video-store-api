@@ -1,6 +1,6 @@
-require "test_helper"
+# require "test_helper"
 
- describe Movie do
+#  describe Movie do
 
 #   let (:firstmovie) {movies(:one)}
 #   it "can be created" do
@@ -8,11 +8,11 @@ require "test_helper"
 #   end
 
 #   it "requires name, registered_at and postal_code" do
-#     required_fields = [:name, :registered_at, :postal_code, :phone]
+#     required_fields = [:title, :overview, :release_date, :inventory]
     
 
 #     required_fields.each do |field|
-#        peanut[field] = nil
+#        movie[field] = nil
 
 #        expect(firstmovie.valid?).must_equal false
 
@@ -38,4 +38,4 @@ require "test_helper"
     
 #   end
 
-end
+# end

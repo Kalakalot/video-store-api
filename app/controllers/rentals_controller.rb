@@ -63,7 +63,7 @@ class RentalsController < ApplicationController
 
     private 
     def rentals_params
-        params.permit(:customer_id, :movie_id)
+        params.require(:rentals).permit(:customer_id, :movie_id)
     end
 
     private
