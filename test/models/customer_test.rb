@@ -29,17 +29,16 @@ describe Customer do
       _(@customer.errors.messages).must_include  :registered_at
     end
     
-    it "requires an address" do
-      _(@customer.valid?).must_equal false
-      _(@customer.errors.messages).must_include :address
-    end
-    
-    it "requires a city, state, postal code, and phone" do
+    it "requires an address, city, state, and postal code" do
       _(@customer.valid?).must_equal false
       _(@customer.errors.messages).must_include :address
       _(@customer.errors.messages).must_include :city
       _(@customer.errors.messages).must_include :state
       _(@customer.errors.messages).must_include :postal_code
+    end
+    
+    it "requires a phone" do
+      _(@customer.valid?).must_equal false
       _(@customer.errors.messages).must_include :phone
     end
     
