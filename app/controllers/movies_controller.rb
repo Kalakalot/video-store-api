@@ -22,24 +22,21 @@ class MoviesController < ApplicationController
 
   def create
     movie = Movie.new(movie_params)
-    if movie.save!
-      render json: movie.as_json(only: KEYS), status: :ok
+    if movie.save
+      render json: movie.as_json(only: KEYS), status: :created
       return
     else
       render json: {
         ok: false,
         errors: movie.errors.messages
       }, status: :bad_request
-      # render json: {
-      #   errors: {
-      #     id: ["No movie with the id of '#{}' found"]}
-      #   }, status: :not_found
+ 
       return
     end
   end
   
   private
   def movie_params
-    params.require(:movie).permit(:available_inventory, :title, :overview, :release_date, :inventory)
+    params.permit(:available_inventory, :title, :overview, :release_date, :inventory)
   end
 end
