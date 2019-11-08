@@ -1,11 +1,11 @@
 require "test_helper"
 # require "pry-rails"
 
-# Minitest::Reporters.use!(
-#   Minitest::Reporters::SpecReporter.new,
-#   ENV,
-#   Minitest.backtrace_filter
-# )
+Minitest::Reporters.use!(
+  Minitest::Reporters::SpecReporter.new,
+  ENV,
+  Minitest.backtrace_filter
+)
 
 describe RentalsController do
   
@@ -45,7 +45,22 @@ describe RentalsController do
     end
     
     it "responds with bad request for movie with no available inventory" do 
+      movie = movies(:swamp)
+      movie.available_inventory = 0
+      movie.save!
+
+      unavailable_rental = 
+      {
+        movie_id: movie.id,
+        customer_id: customers(:one).id
+      }
       
+      expect {
+        post checkout_path(unavailable_rental)
+      }.wont_change "Rental.count"
+      
+      must_respond_with :bad_request
+
     end
     
   end
