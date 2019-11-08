@@ -11,18 +11,11 @@ class RentalsController < ApplicationController
             render_error("Sorry, no record found for this movie or customer!")
             return
 
-        else
-            render status: :ok
-            return
+        # else
+        #     render status: :ok
+        #     return
         end
         
-        # if movie.nil?
-        #     render json: {ok: false, errors: movie.errors.messages}, status: :bad_request
-        # end
-        
-        # if customer.nil?
-        #     render json: {ok: false, errors: customer.errors.messages}, status: :bad_request
-        # end
 
         movies_available = movie.available_inventory 
         if movies_available > 0 && movies_available <= movie.inventory
