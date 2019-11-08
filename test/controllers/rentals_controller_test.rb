@@ -12,7 +12,7 @@ describe RentalsController do
   
   describe "check out" do
     
-    it "succeeds for an existing movie and customer" do
+    it "succeeds for an existing movie and customer and creates a new rental" do
       params = 
       {
         movie_id: movies(:bride).id,
@@ -22,6 +22,7 @@ describe RentalsController do
       expect{
         post checkout_path(params)
       }.must_differ "Rental.count", 1
+      
       must_respond_with :success
       
     end
@@ -39,16 +40,13 @@ describe RentalsController do
       
       must_respond_with :bad_request
       
-      # expect(response.header['Content-Type']).must_include 'json'
-      # # expect(body["errors"]).must_include "id"
-      
     end
     
     it "responds with bad request for movie with no available inventory" do 
       movie = movies(:swamp)
       movie.available_inventory = 0
       movie.save!
-
+      
       unavailable_rental = 
       {
         movie_id: movie.id,
@@ -60,7 +58,7 @@ describe RentalsController do
       }.wont_change "Rental.count"
       
       must_respond_with :bad_request
-
+      
     end
     
   end
@@ -69,6 +67,22 @@ describe RentalsController do
   describe "check in" do
     
     it "succeeds for an existing movie and customer" do
+      movie = movies(:swamp)
+      movie.available_inventory = 0
+      movie.save!
+      customer = customers(:one)
+
+      params = 
+      {
+        movie_id: movie.id,
+        customer_id: customer.id
+      }
+      
+      expect{
+        post checkin_path(params) 
+      }.wont_change "Rental.count"
+      
+      must_respond_with :success
       
     end
     
@@ -76,7 +90,7 @@ describe RentalsController do
       
     end
     
-    it "responds with bad request for a bogus customer" do
+    it "responds with bad request when check in would make available inventory more than total inventory" do
       
     end
     

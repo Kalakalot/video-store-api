@@ -47,7 +47,7 @@ class RentalsController < ApplicationController
         
         movies_available = movie.available_inventory 
         if movies_available < movie.inventory
-            rental = Rental.new(created_at: Time.now, customer_id: customer_id, movie_id: movie_id)
+            rental = Rental.new(customer_id: customer_id, movie_id: movie_id)
             movie.rentals.delete(rental)
             movie.available_inventory = movies_available + 1
             movie.save
