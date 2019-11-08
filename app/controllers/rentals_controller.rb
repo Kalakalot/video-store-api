@@ -3,7 +3,7 @@ class RentalsController < ApplicationController
     def checkout
         customer_id = params[:customer_id]
         movie_id = params[:movie_id]
-        
+
         customer = Customer.find_by(id: customer_id)
         movie = Movie.find_by(id: movie_id)
 
@@ -11,9 +11,7 @@ class RentalsController < ApplicationController
             render_error("Sorry, no record found for this movie or customer!")
             return
 
-        # else
-        #     render status: :ok
-        #     return
+    
         end
         
 

@@ -1,22 +1,28 @@
 require "test_helper"
 # require "pry-rails"
 
+# Minitest::Reporters.use!(
+#   Minitest::Reporters::SpecReporter.new,
+#   ENV,
+#   Minitest.backtrace_filter
+# )
+
 describe RentalsController do
   
+  
   describe "check out" do
+    
     it "succeeds for an existing movie and customer" do
-      rental_params = 
+      params = 
       {
-        movie_id: movies(:bride).id, 
+        movie_id: movies(:bride).id,
         customer_id: customers(:one).id
       }
       
-      expect{checkout_path(rental_params)}.must_respond_with :success
-      
-      # expect{
-      #   post checkout_path(rental_params)
-      # }.must_differ "Rental.count", 1
-      # must_respond_with :success
+      expect{
+        post checkout_path(params)
+      }.must_differ "Rental.count", 1
+      must_respond_with :success
       
     end
     
@@ -33,8 +39,8 @@ describe RentalsController do
       
       must_respond_with :bad_request
       
-      expect(response.header['Content-Type']).must_include 'json'
-      # expect(body["errors"]).must_include "id"
+      # expect(response.header['Content-Type']).must_include 'json'
+      # # expect(body["errors"]).must_include "id"
       
     end
     
