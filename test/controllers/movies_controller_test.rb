@@ -22,7 +22,7 @@ describe MoviesController do
       check_response(expected_type: Array)
     end
 
-    it "responds with an array of movie hashes" do
+    it "responds with an array of movie array" do
       # Act
       get movies_path
 
@@ -47,15 +47,6 @@ describe MoviesController do
     end
   end
 
-  # describe "show" do
-
-  #   it "retrieves one movie"
-   
-  #   get movies_path
-
-  #   check_response(expected_type: Hashes)
-
-  #   end
 
   describe "show" do
     it "retrieves one movie" do
@@ -92,29 +83,25 @@ describe MoviesController do
     before do
       # Create valid request
       @movie = {
-        bride: {
-          title: "The Princess Bride",
-          overview: "A unique fairytale with adventure, drama, romance, and swordfighting",
+          title: "Xmen",
+          overview: "Mutants",
           release_date:  "Fri, 05 Nov 2010",
           inventory: "25",
-          available_inventory: "25",
-          created_at: "Tue, 05 Nov 2019 22:59:38 UTC +00:00",
-          updated_at: "Tue, 05 Nov 2019 22:59:38 UTC +00:00"
-        }
+          available_inventory: "25"
       }
+    end
 
     it 'responds with created status when request is good' do
-      # make post request to create
-      # verify count +1
-      expect{post movies, params: @movie}.must_differ 'Movie.count', 1
+  
+      expect{post movies_path, params: @movie}.must_differ 'Movie.count', 1
       # check for created code
       must_respond_with :created
       # body contains new movie's id
       body = JSON.parse(response.body)
-      expect(body.keys).must_equal ['id']
+      expect(body.keys.sort).must_equal [ "available_inventory","id","inventory", "overview", "release_date","title" ]
     end
 
-    it 'responds with bad_request when request has no name' do
+    it 'responds with bad_request when request has no title' do
       # make bad request
       no_title_movie = @movie
       no_title_movie[:title] = nil
@@ -123,10 +110,10 @@ describe MoviesController do
       expect{post movies_path, params: @movie}.wont_change 'Movie.count'
       # verify bad_request status
       must_respond_with :bad_request
-      # body contains errors which contain string 'name'
+      # body contains errors which contain string 'title'
       body = JSON.parse(response.body)
       expect(body['errors'].keys).must_include 'title'
     end
+
   end
-end
 end
