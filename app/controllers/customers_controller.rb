@@ -9,7 +9,7 @@ class CustomersController < ApplicationController
     private
     
     def customer_params
-        params.require(:customer).permit(:id, :name, :registered_at, :address, :city, :state, :movies_checked_out_count, :postal_code, :phone)
+        params.permit(:id, :name, :registered_at, :address, :city, :state, :movies_checked_out_count, :postal_code, :phone)
     end
     
 end
