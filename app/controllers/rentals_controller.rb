@@ -1,33 +1,44 @@
 class RentalsController < ApplicationController
     
     def checkout
-        
         customer_id = params[:customer_id]
         movie_id = params[:movie_id]
         
         customer = Customer.find_by(id: customer_id)
         movie = Movie.find_by(id: movie_id)
-        
+
         if movie.nil? || customer.nil?
             render_error("Sorry, no record found for this movie or customer!")
             return
+
+        else
+            render status: :ok
+            return
         end
         
+        # if movie.nil?
+        #     render json: {ok: false, errors: movie.errors.messages}, status: :bad_request
+        # end
+        
+        # if customer.nil?
+        #     render json: {ok: false, errors: customer.errors.messages}, status: :bad_request
+        # end
+
         movies_available = movie.available_inventory 
         if movies_available > 0 && movies_available <= movie.inventory
-            rental = Rental.new(created_at: Time.now, customer_id: customer_id, movie_id: movie_id)
+            rental = Rental.new(customer_id: customer_id, movie_id: movie_id)
             movie.rentals << rental
             movie.available_inventory = movies_available - 1
-            movie.save!
+            movie.save
             
             customer.rentals << rental
             customer.movies_checked_out_count += 1
-            customer.save!
+            customer.save
         else
             render_error("Sorry, '#{movie.title}' has no copies available to rent")
         end
         
-        render json: movie, status: :ok
+        render json: movie#, status: :ok
     end
     
     

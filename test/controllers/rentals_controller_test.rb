@@ -1,23 +1,40 @@
 require "test_helper"
+# require "pry-rails"
 
 describe RentalsController do
   
   describe "check out" do
-    it "can correctly check out an existing movie" do
-      movie = Movie.first
+    it "succeeds for an existing movie" do
+      rental_params = 
+      {
+        movie_id: movies(:bride).id, 
+        customer_id: customers(:one).id
+      }
       
-      expect{
-        patch checkout_path, params: movie.id
-      }.must_differ movie.available_inventory, 1
-      
+      # expect{
+      #   post checkout_path(rental_params)
+      # }.must_differ "Rental.count", 1
+      # must_respond_with :success
+
     end
     
-    it "returns not found for a bogus movie" do
+    it "will respond with bad request for invalid data" do
+      # bogus_rental = 
+      # {
+      #     movie_id: 0,
+      #     customer_id: -99
+      # }
+      
+      # expect {
+      # post checkout_path(bogus_rental)
+      # }.wont_change "Rental.count"
+      
+      # must_respond_with :bad_request
       
     end
-    
-    it "returns not found for a bogus customer" do
-      
+
+    it "will respond with bad for movie with no available inventory" do 
+
     end
     
   end
@@ -25,12 +42,7 @@ describe RentalsController do
   
   describe "check in" do
     
-    it "can correctly check in an existing movie" do
-      movie = Movie.first
-      
-      expect{
-        patch checkout_path, params: movie.id
-      }.must_differ movie.available_inventory, 1
+    it "success for an existing movie" do
       
     end
     
@@ -44,9 +56,6 @@ describe RentalsController do
     
     
   end
-  
-  
-  
   
   
 end
