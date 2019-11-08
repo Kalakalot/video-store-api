@@ -31,7 +31,7 @@ class RentalsController < ApplicationController
             render_error("Sorry, '#{movie.title}' has no copies available to rent")
         end
         
-        render json: movie#, status: :ok
+        render json: movie, status: :ok
     end
     
     
