@@ -73,7 +73,8 @@ class RentalsController < ApplicationController
             ok: false,
             errors: message
             }, status: :bad_request
-        end
     end
+end
+
     
     
