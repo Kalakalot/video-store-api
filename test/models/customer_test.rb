@@ -32,7 +32,7 @@ describe Customer do
       
     end
     
-    it "won't create a customer unless name and registered_at are included" do
+    it "won't create a customer if name and registered_at are missing" do
       _(@invalid_customer.valid?).must_equal false
       _(@invalid_customer.errors.messages).must_include :name
       _(@invalid_customer.errors.messages).must_include  :registered_at

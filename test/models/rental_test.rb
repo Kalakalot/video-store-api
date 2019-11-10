@@ -18,9 +18,14 @@ describe Rental do
       
     end
     
-    it "won't creat4e a rental if customer id, movie id, and due date are missing" do
+    it "won't create a rental if customer id, movie id, and due date are missing" do
       
+      invalid_rental = Rental.create
+      
+      _(invalid_rental.valid?).must_equal false
+      _(invalid_rental.errors.messages).must_include :movie_id
+      _(invalid_rental.errors.messages).must_include :customer_id
+      _(invalid_rental.errors.messages).must_include :due_date
     end
   end
 end
-  
