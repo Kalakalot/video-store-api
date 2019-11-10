@@ -16,7 +16,7 @@ class RentalsController < ApplicationController
         
         movies_available = movie.available_inventory 
         if movies_available > 0 && movies_available <= movie.inventory
-            rental = Rental.create(customer_id: customer_id, movie_id: movie_id, due_date: today + 7)
+            rental = Rental.create(customer_id: customer_id, movie_id: movie_id, due_date: 7.days.from_now)
             movie.rentals << rental
             movie.available_inventory = movies_available - 1
             movie.save
