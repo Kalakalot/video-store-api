@@ -1,5 +1,5 @@
-# require "test_helper"
-# # require "pry-rails"
+require "test_helper"
+# require "pry-rails"
 
 Minitest::Reporters.use!(
   Minitest::Reporters::SpecReporter.new,
@@ -7,38 +7,37 @@ Minitest::Reporters.use!(
   Minitest.backtrace_filter
 )
 
-# describe RentalsController do
+describe RentalsController do
   
-  
-#   describe "check out" do
+  describe "check out" do
     
-    it "succeeds for an existing movie and customer and creates a new rental" do
+    it "creates a new rental for an existing customer and available movie" do
       params = 
       {
         movie_id: movies(:bride).id,
         customer_id: customers(:one).id
       }
-      
+
       expect{
         post checkout_path(params)
       }.must_differ "Rental.count", 1
       
       must_respond_with :success
       
-#     end
+    end
     
-#     it "responds with bad request for invalid data" do
-#       bogus_rental = 
-#       {
-#         movie_id: 0,
-#         customer_id: -99
-#       }
+    it "responds with bad request for invalid data" do
+      bogus_rental = 
+      {
+        movie_id: 0,
+        customer_id: -99
+      }
       
-#       expect {
-#         post checkout_path(bogus_rental)
-#       }.wont_change "Rental.count"
+      expect {
+        post checkout_path(bogus_rental)
+      }.wont_change "Rental.count"
       
-#       must_respond_with :bad_request
+      must_respond_with :bad_request
       
     end
     
@@ -59,19 +58,19 @@ Minitest::Reporters.use!(
       
       must_respond_with :bad_request
       
-#     end
+    end
     
-#   end
+  end
   
   
-#   describe "check in" do
+  describe "check in" do
     
     it "succeeds for an existing movie and customer" do
       movie = movies(:swamp)
       movie.available_inventory = 0
       movie.save!
       customer = customers(:one)
-
+      
       params = 
       {
         movie_id: movie.id,
@@ -84,18 +83,16 @@ Minitest::Reporters.use!(
       
       must_respond_with :success
       
-#     end
+    end
     
-#     it "responds with bad request for a bogus movie and customer" do
+    it "responds with bad request for a bogus movie and customer" do
       
-#     end
+    end
     
     it "responds with bad request when check in would make available inventory more than total inventory" do
       
-#     end
+    end
     
-    
-#   end
+  end
   
-  
-# end
+end
