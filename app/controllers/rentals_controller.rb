@@ -16,7 +16,7 @@ class RentalsController < ApplicationController
         
         movies_available = movie.available_inventory 
         if movies_available > 0 && movies_available <= movie.inventory
-            rental = Rental.new(customer_id: customer_id, movie_id: movie_id)
+            rental = Rental.create(customer_id: customer_id, movie_id: movie_id)
             movie.rentals << rental
             movie.available_inventory = movies_available - 1
             movie.save
@@ -49,14 +49,15 @@ class RentalsController < ApplicationController
         if movies_available < movie.inventory
             rental = Rental.new(customer_id: customer_id, movie_id: movie_id)
             movie.rentals.delete(rental)
-            movie.available_inventory = movies_available + 1
+            movie.available_inventory += 1
             movie.save
             
             customer.rentals.delete(rental)
             customer.movies_checked_out_count -= 1
             customer.save
         else
-            render_error
+            render_error("This movie is already fully stocked.")
+            return
         end
         
         render json: movie, status: :ok
@@ -73,8 +74,8 @@ class RentalsController < ApplicationController
             ok: false,
             errors: message
             }, status: :bad_request
+        end
     end
-end
-
+    
     
     
