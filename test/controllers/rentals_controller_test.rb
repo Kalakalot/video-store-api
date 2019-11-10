@@ -1,11 +1,4 @@
 require "test_helper"
-# require "pry-rails"
-
-Minitest::Reporters.use!(
-  Minitest::Reporters::SpecReporter.new,
-  ENV,
-  Minitest.backtrace_filter
-)
 
 describe RentalsController do
   
@@ -23,6 +16,22 @@ describe RentalsController do
       }.must_differ "Rental.count", 1
       
       must_respond_with :success
+      
+    end
+    
+    it "sets the due date for a week from rental date" do
+      
+      movie = movies(:bride)
+      
+      params = 
+      {
+        movie_id: movie.id,
+        customer_id: customers(:one).id
+      }
+      
+      post checkout_path(params)
+      
+      expect(Rental.last.due_date).must_equal Date.today + 7
       
     end
     
@@ -80,8 +89,6 @@ describe RentalsController do
         post checkin_path(params) 
       }.wont_change "Rental.count"
       
-      # expect(movie.available_inventory).must_equal 1
-      
       must_respond_with :success
       
     end
@@ -104,7 +111,7 @@ describe RentalsController do
       movie.available_inventory = 3
       movie.save!
       customer = customers(:one)
-
+      
       inventory_mismatch_rental = 
       {
         movie_id: movie.id,

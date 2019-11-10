@@ -16,9 +16,9 @@ class RentalsController < ApplicationController
         
         movies_available = movie.available_inventory 
         if movies_available > 0 && movies_available <= movie.inventory
-            rental = Rental.create(customer_id: customer_id, movie_id: movie_id, due_date: 7.days.from_now)
+            rental = Rental.create(customer_id: customer_id, movie_id: movie_id, due_date: Date.today + 7)
             movie.rentals << rental
-            movie.available_inventory = movies_available - 1
+            movies_available -= 1
             movie.save
             
             customer.rentals << rental
@@ -49,7 +49,7 @@ class RentalsController < ApplicationController
         if movies_available < movie.inventory
             rental = Rental.new(customer_id: customer_id, movie_id: movie_id)
             movie.rentals.delete(rental)
-            movie.available_inventory += 1
+            movies_available += 1
             movie.save
             
             customer.rentals.delete(rental)
@@ -66,7 +66,7 @@ class RentalsController < ApplicationController
     private 
     
     def rentals_params
-        params.require(:rentals).permit(:customer_id, :movie_id)
+        params.require(:rentals).permit(:customer_id, :movie_id, :due_date)
     end
     
     def render_error(message)
