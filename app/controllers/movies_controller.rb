@@ -22,18 +22,15 @@ class MoviesController < ApplicationController
 
   def create
     movie = Movie.new(movie_params)
-    if movie.save!
-      render json: movie.as_json(only: KEYS), status: :ok
+    if movie.save
+      render json: movie.as_json(only: KEYS), status: :created
       return
     else
       render json: {
         ok: false,
         errors: movie.errors.messages
       }, status: :bad_request
-      # render json: {
-      #   errors: {
-      #     id: ["No movie with the id of '#{}' found"]}
-      #   }, status: :not_found
+ 
       return
     end
   end

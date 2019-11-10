@@ -1,41 +1,48 @@
-# require "test_helper"
+require "test_helper"
+describe Movie do
+    let(:create_movie){
+        create_movie = Movie.new(
+            title: "Daylight",
+            overview: "must watch",
+            release_date: Time.new(2019, 2, 6),
+            inventory: 6
+        )
+    }
 
-#  describe Movie do
+    describe "validations" do
+        it "must have a title and inventory" do
+            create_movie.title = nil
+            _(create_movie.valid?).must_equal false
+            _(create_movie.errors.messages).must_include :title
+            _(create_movie.errors.messages[:title]).must_include "can't be blank"
+        end
 
-#   let (:firstmovie) {movies(:one)}
-#   it "can be created" do
-#     expect(movies.valid?).must_equal true
-#   end
+        it "inventory can not be blank" do
+        create_movie.inventory = nil
+        _(create_movie.valid?).must_equal false
+        _(create_movie.errors.messages).must_include :inventory
+        _(create_movie.errors.messages[:inventory]).must_include "can't be blank"
+        end
+    end
 
-#   it "requires name, registered_at and postal_code" do
-#     required_fields = [:title, :overview, :release_date, :inventory]
-    
+    describe "relations" do
 
-#     required_fields.each do |field|
-#        movie[field] = nil
+        it "movie can have many rentals" do
+            current_movie = movies(:swamp)
+            expect(current_movie.rentals.count).must_equal 1
+            current_movie.rentals.each do |rental|
+                _(rental).must_be_kind_of Rental
+            end
+        end
 
-#        expect(firstmovie.valid?).must_equal false
+        it "rentals can have a customer" do
+            current_customer = customers(:one)
+            expect(current_customer.rentals.count).must_equal 1
+            current_customer.rentals.each do |rental|
+                _(rental).must_be_kind_of Rental
+            end
+        end
+    end
 
-#        firstmovie.reload
-#     end
-
-#     # As with all Rails projects, model testing is a requirement. 
-#     # You should have at least one positive and one negative test case for each relation, 
-#     # validation, and custom function you add to your models.
-#   end
-#   describe "validations" do
-
-#     it "can be valid" do
-#       is_valid = users(:valid_user_with_username).valid?
-#       assert( is_valid )
-#     end
-
-#     it "is invalid if there is no username" do
-#       user = users(:invalid_user_without_username)
-#       is_valid = user.valid?
-#       refute( is_valid )
-#     end
-    
-#   end
-
-# end
+end
+  
